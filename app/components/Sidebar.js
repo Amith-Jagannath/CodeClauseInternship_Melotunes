@@ -20,7 +20,7 @@ const Sidebar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <>
-      <div className="md:flex hidden flex-col w-[240px] py-10 px-4 bg-[#191624] h-auto">
+      <div className="md:flex hidden flex-col w-[240px] py-10 px-4  h-auto bg-gradient-to-r from-purple-500 to-indigo-500">
         <img
           src="./logo.svg"
           alt="logo"
