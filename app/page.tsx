@@ -6,6 +6,7 @@ import Searchbar from "./components/Searchbar";
 import { useRef, useState, useEffect } from "react";
 import Liked from "./components/Liked";
 import mediaData from "../constants";
+
 import {
   HiPlay,
   HiArrowCircleLeft,
@@ -95,39 +96,7 @@ export default function Home() {
               image="/poster/wajah_tum_ho.webp"
               title="Wajah Tum ho"
             />
-            <Card
-              onClick={() => handlePlayClick("sanam_re")}
-              key="sanam_re"
-              image="/poster/sanam_re.webp"
-              title="Sanam Re"
-            />
-            <Card
-              onClick={() => handlePlayClick("wajah_tum_ho")}
-              image="/poster/wajah_tum_ho.webp"
-              title="Wajah Tum ho"
-            />
-            <Card
-              onClick={() => handlePlayClick("sanam_re")}
-              key="sanam_re"
-              image="/poster/sanam_re.webp"
-              title="Sanam Re"
-            />
-            <Card
-              onClick={() => handlePlayClick("wajah_tum_ho")}
-              image="/poster/wajah_tum_ho.webp"
-              title="Wajah Tum ho"
-            />
-            <Card
-              onClick={() => handlePlayClick("sanam_re")}
-              key="sanam_re"
-              image="/poster/sanam_re.webp"
-              title="Sanam Re"
-            />
-            <Card
-              onClick={() => handlePlayClick("wajah_tum_ho")}
-              image="/poster/wajah_tum_ho.webp"
-              title="Wajah Tum ho"
-            />
+
             {/* <Card image="https://media5.bollywoodhungama.in/wp-content/uploads/2023/07/Double-ISmart.jpg" />  */}
           </div>
 
