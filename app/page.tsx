@@ -6,7 +6,6 @@ import Searchbar from "./components/Searchbar";
 import { useRef, useState, useEffect } from "react";
 import Liked from "./components/Liked";
 import mediaData from "../constants";
-
 import {
   HiPlay,
   HiArrowCircleLeft,
@@ -35,11 +34,29 @@ export default function Home() {
   const handlePlayClick = (key: string) => {
     setSong(key);
     setIsPlaying(!isPlaying); // Set audio play state to true when user clicks play
+    const newProgress = parseFloat(progress.toString());
+    setProgress(progress);
+    console.log(newProgress);
+    if (audioRef.current) {
+      const currentTime = audioRef.current.currentTime;
+      const duration = audioRef.current.duration;
+      const progressPercentage = (currentTime / duration) * 100;
+      setProgress(progressPercentage);
+      console.log(progress);
+    }
   };
   const handlePauseClick = () => {
     setIsPlaying(false);
+    console.log("pausing song");
     if (audioRef.current) {
       audioRef.current.pause();
+    }
+    if (audioRef.current) {
+      const currentTime = audioRef.current.currentTime;
+      const duration = audioRef.current.duration;
+      const progressPercentage = (currentTime / duration) * 100;
+      setProgress(progressPercentage);
+      console.log(progress);
     }
   };
 
@@ -76,7 +93,15 @@ export default function Home() {
       }
     };
   }, [song, isPlaying]);
-  const progressUpdate = () => {};
+  const progressUpdate = (e: any) => {
+    const newProgress = parseFloat(e.target.value);
+    if (audioRef.current) {
+      const duration = audioRef.current.duration;
+      const currentTime = (newProgress / 100) * duration;
+      audioRef.current.currentTime = currentTime;
+      setProgress(newProgress);
+    }
+  };
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>;
   return (
     <div>
@@ -84,20 +109,37 @@ export default function Home() {
         <Sidebar />
         <div className="flex-1 w-1/2 flex-col bg-zinc-900">
           <Searchbar />
-          <div className="flex row">
-            <Card
-              onClick={() => handlePlayClick("sanam_re")}
-              key="sanam_re"
-              image="/poster/sanam_re.webp"
-              title="Sanam Re"
-            />
-            <Card
-              onClick={() => handlePlayClick("wajah_tum_ho")}
-              image="/poster/wajah_tum_ho.webp"
-              title="Wajah Tum ho"
-            />
-
-            {/* <Card image="https://media5.bollywoodhungama.in/wp-content/uploads/2023/07/Double-ISmart.jpg" />  */}
+          <div className="row">
+            <h1 className="text-white text-xl">Bollywood</h1>
+            <div className="row__posters flex justify-start flex-4">
+              {mediaData.map(({ type, source, name }) =>
+                type === "bollywood" ? (
+                  <Card
+                    onClick={() => handlePlayClick(source)}
+                    key={source}
+                    image={`/poster/${source}.webp`}
+                    title={name}
+                    source={source}
+                  />
+                ) : null
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <h1 className="text-white text-xl">Hollywood</h1>
+            <div className="row__posters image-wrapper ">
+              {mediaData.map(({ type, source, name }) =>
+                type === "hollywood" ? (
+                  <Card
+                    onClick={() => handlePlayClick(source)}
+                    key={source}
+                    image={`/poster/${source}.webp`}
+                    title={name}
+                    source={source}
+                  />
+                ) : null
+              )}
+            </div>
           </div>
 
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
@@ -129,7 +171,7 @@ export default function Home() {
             <HiArrowCircleLeft className="text-white text-3xl" />
             {isPlaying ? (
               <HiPause
-                onClick={() => handlePlayClick(song)}
+                onClick={() => handlePauseClick()}
                 className="text-white text-3xl"
               />
             ) : (

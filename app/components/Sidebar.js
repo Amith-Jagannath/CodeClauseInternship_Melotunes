@@ -9,6 +9,7 @@ import {
   HiOutlinePhotograph,
   HiOutlineUserGroup,
 } from "react-icons/hi";
+import { RiCloseLine } from "react-icons/Ri";
 import Link from "next/link";
 const links = [
   { name: "Discover", to: "/", icon: HiOutlineHome },

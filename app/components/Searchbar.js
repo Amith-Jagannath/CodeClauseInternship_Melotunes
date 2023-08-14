@@ -11,7 +11,7 @@ const Searchbar = () => {
   return (
     <div className="flex">
       <p className="text-2xl font-bold m-7 text-white">{session?.user?.name}</p>
-      <div className="justify-end items-end">
+      <div className="">
         <form
           autoComplete="off"
           className="p-2 text-gray-400 focus-within:text-gray-600 ml-96 w-1/4"
@@ -33,17 +33,7 @@ const Searchbar = () => {
           </div>
         </form>
       </div>
-      <div className="flex justify-center my-auto">
-        {/* <SignedOut>
-          <Link href="/sign-up">
-            <button className="flexCenter my-auto ml-28 px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white">
-              Sign in
-            </button>
-          </Link>
-        </SignedOut>
-        <SignInButton className="flex">
-          <UserButton />
-        </SignInButton> */}
+      <div className="flex  my-auto">
         {status === "authenticated" ? (
           <button
             onClick={() => signOut("google")}

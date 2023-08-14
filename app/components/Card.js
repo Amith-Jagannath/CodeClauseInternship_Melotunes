@@ -1,18 +1,32 @@
 "use client";
 import React from "react";
 import { useState } from "react";
+const Card = ({ onClick, image, title, source }) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-const Card = ({ onClick, image, title }) => {
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
-    <div className="relative group w-52 h-60 p-4 " onClick={onClick}>
-      <div className="bg-gray-950 p-4 rounded-lg shadow-md overflow-hidden transform transition-transform group-hover:scale-105 w-full h-full">
-        <img
-          src={image}
-          alt="title"
-          className="w-full  h-full ease-in duration-300 object-cover hover:h-3/4"
-        />
-        <p className="translate-y-4 text-white my-auto text-xs">{title}</p>
-      </div>
+    <div className="flex-shrink-0">
+      <img
+        className="row__poster row__posterLarge image"
+        onClick={onClick}
+        key={title}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        src={`/poster/${source}.webp`}
+        alt={title}
+      />
+      {isHovered && (
+        <div className=" buttom-0  bg-black bg-opacity-20 text-white p-2 text-center transform-gpu transition-transform duration-300 ease-in-out translate-y-0 group-hover:-translate-y-full">
+          {title}
+        </div>
+      )}
     </div>
   );
 };
