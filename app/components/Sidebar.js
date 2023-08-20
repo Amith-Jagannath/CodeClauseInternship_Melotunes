@@ -13,7 +13,7 @@ import { RiCloseLine } from "react-icons/Ri";
 import Link from "next/link";
 const links = [
   { name: "Discover", to: "/", icon: HiOutlineHome },
-  { name: "Around You", to: "/around-you", icon: HiOutlinePhotograph },
+  { name: "Liked Songs", to: "/liked", icon: HiOutlinePhotograph },
   { name: "Top Artists", to: "/top-artists", icon: HiOutlineUserGroup },
   { name: "Top Charts", to: "/top-charts", icon: HiOutlineHashtag },
 ];

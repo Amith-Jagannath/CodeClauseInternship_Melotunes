@@ -10,7 +10,11 @@ const Searchbar = () => {
   const { status, data: session } = useSession();
   return (
     <div className="flex">
-      <p className="text-2xl font-bold m-7 text-white">{session?.user?.name}</p>
+      <p className="text-2xl font-bold m-7 text-white">
+        {session
+          ? `Welcome Back, ${session?.user.name}`
+          : `Welcome,login here!!`}
+      </p>
       <div className="">
         <form
           autoComplete="off"

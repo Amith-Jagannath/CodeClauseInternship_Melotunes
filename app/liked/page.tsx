@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
-import Sidebar from "./components/Sidebar";
-import Card from "./components/Card";
-import Searchbar from "./components/Searchbar";
+import Sidebar from "../components/Sidebar";
+import Card from "../components/Card";
+import Searchbar from "../components/Searchbar";
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import mediaData from "../constants";
+import mediaData from "../../constants";
 import { useSession } from "next-auth/react";
 import {
   HiPlay,
@@ -15,7 +15,7 @@ import {
   HiHeart,
 } from "react-icons/hi";
 
-import { User, FavSong } from "../models/user";
+// import { User, FavSong } from "../models/user";
 export default function Home() {
   const { status, data: session } = useSession();
   const router = useRouter();
@@ -157,38 +157,8 @@ export default function Home() {
         <Sidebar />
         <div className="flex-1 w-1/2 flex-col bg-zinc-900">
           <Searchbar />
-          <div className="row">
-            <h1 className="text-white text-xl">Bollywood</h1>
-            <div className="row__posters flex justify-start flex-4">
-              {mediaData.map(({ type, source, name }) =>
-                type === "bollywood" ? (
-                  <Card
-                    onClick={() => handlePlayClick(source)}
-                    key={source}
-                    image={`/poster/${source}.webp`}
-                    title={name}
-                    source={source}
-                  />
-                ) : null
-              )}
-            </div>
-          </div>
-          <div className="row">
-            <h1 className="text-white text-xl">Hollywood</h1>
-            <div className="row__posters image-wrapper ">
-              {mediaData.map(({ type, source, name }) =>
-                type === "hollywood" ? (
-                  <Card
-                    onClick={() => handlePlayClick(source)}
-                    key={source}
-                    image={`/poster/${source}.webp`}
-                    title={name}
-                    source={source}
-                  />
-                ) : null
-              )}
-            </div>
-          </div>
+          <div className="row">liked songs here</div>
+          <div className="row"></div>
 
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
         </div>
