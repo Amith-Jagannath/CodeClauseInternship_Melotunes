@@ -24,7 +24,40 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  // const user = await getCurrentUser();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        console.log("liked");
+        // Fetch the session asynchronously
+
+        const user = await session?.user?.name;
+        console.log(user);
+        const res = await fetch("http://localhost:3000/api/likedSongs", {
+          // Use a relative path for the API endpoint
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error(
+            `Failed to like song: ${res.status} - ${res.statusText}`
+          );
+        }
+
+        const data = await res.json();
+        console.log(data.songs);
+      } catch (error) {
+        console.error("An error occurred while liking the song:", error);
+      }
+    }
+    fetchData();
+  }, []);
   useEffect(() => {
     if (isPlaying) {
       for (let i = 0; i < mediaData.length; i++)
@@ -157,8 +190,47 @@ export default function Home() {
         <Sidebar />
         <div className="flex-1 w-1/2 flex-col bg-zinc-900">
           <Searchbar />
-          <div className="row">liked songs here</div>
-          <div className="row"></div>
+          <header>
+            <div className="banner__contents">
+              <h1 className="banner__title text-7xl text-white">Liked songs</h1>
+            </div>
+            <div className="banner__fadeButton"></div>
+          </header>
+
+          <div className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
+              <div className="flex">
+                {" "}
+                <p className="items-center flex text-white mx-4">1</p>
+                <Image
+                  src="/poster/sanam_re.webp"
+                  width={40}
+                  height={40}
+                  className="rounded-lg flex items-center"
+                  alt="songs"
+                />
+                <div className="flex-col text-sm text-white mx-4 items-center justify-center my-auto">
+                  <p>Sanam re</p>
+                  <p>Arijith singh</p>
+                </div>
+              </div>
+
+              <div className="text-white my-auto">Dil(Maine tera naam)</div>
+              <div className=" my-auto ml-60 text-3xl">
+                <HiHeart></HiHeart>
+              </div>
+            </div>
+          </div>
+          <div className="bg-zinc-700 mx-10 h-20 rounded-lg flex items-center justify-center mb-3">
+            <h1 className="text-white text-3xl flex items-center justify-center h-full shrink">
+              cards
+            </h1>
+          </div>
+          <div className="bg-zinc-700 mx-10 h-20 rounded-lg flex items-center justify-center mb-3">
+            <h1 className="text-white text-3xl flex items-center justify-center h-full shrink">
+              cards
+            </h1>
+          </div>
 
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
         </div>
