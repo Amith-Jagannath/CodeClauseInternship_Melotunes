@@ -19,6 +19,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { User, FavSong } from "../models/user";
 export default function Home() {
   const { status, data: session } = useSession();
+  localStorage.setItem("userData", JSON.stringify(session?.user?.name));
   const router = useRouter();
   const [song, setSong] = useState("");
   const [songData, setSongData] = useState(-1);

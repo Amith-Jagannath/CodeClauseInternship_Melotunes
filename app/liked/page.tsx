@@ -31,28 +31,32 @@ export default function Home() {
         console.log("liked");
         // Fetch the session asynchronously
 
-        const user = await session?.user?.name;
-        console.log(user);
-        const res = await fetch("http://localhost:3000/api/likedSongs", {
-          // Use a relative path for the API endpoint
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user,
-          }),
-        });
+        const userData = localStorage.getItem("userData");
+        if (userData !== null) {
+          const user = JSON.parse(userData);
 
-        if (!res.ok) {
-          throw new Error(
-            `Failed to like song: ${res.status} - ${res.statusText}`
-          );
+          console.log(user);
+          const res = await fetch("http://localhost:3000/api/likedSongs", {
+            // Use a relative path for the API endpoint
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user,
+            }),
+          });
+
+          if (!res.ok) {
+            throw new Error(
+              `Failed to like song: ${res.status} - ${res.statusText}`
+            );
+          }
+
+          const data = await res.json();
+          console.log(data.songs);
+          setSongLists(data.songs);
         }
-
-        const data = await res.json();
-        console.log(data.songs);
-        setSongLists(data.songs);
       } catch (error) {
         console.error("An error occurred while liking the song:", error);
       }
@@ -155,10 +159,11 @@ export default function Home() {
     try {
       // Assuming you're using Next.js and the useSession hook
 
-      const user = session?.user?.name;
+      const storedUserData = localStorage.getItem("userData");
+      console.log(storedUserData);
 
       const songname = mediaData[songData].name;
-      console.log(user);
+      const user = "nd";
 
       const res = await fetch("http://localhost:3000/api/addFav", {
         // Use a relative path for the API endpoint
@@ -189,7 +194,7 @@ export default function Home() {
     <div>
       <div className="flex ">
         <Sidebar />
-        <div className="flex-1 w-1/2 flex-col bg-zinc-900">
+        <div className="flex-1 w-1/2 flex-col bg-zinc-900 flex-w">
           <Searchbar />
           <header>
             <div className="banner__contents">

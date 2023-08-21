@@ -12,10 +12,10 @@ const Searchbar = () => {
     <div className="flex">
       <p className="text-2xl font-bold m-7 text-white">
         {session
-          ? `Welcome Back, ${session?.user.name}`
+          ? `Welcome Back, ${session?.user.name.split(" ")[0]}`
           : `Welcome,login here!!`}
       </p>
-      <div className="">
+      {/* <div className="">
         <form
           autoComplete="off"
           className="p-2 text-gray-400 focus-within:text-gray-600 ml-96 w-1/4"
@@ -36,11 +36,17 @@ const Searchbar = () => {
             />
           </div>
         </form>
-      </div>
+      </div> */}
       <div className="flex  my-auto">
         {status === "authenticated" ? (
           <button
-            onClick={() => signOut("google")}
+            onClick={() => {
+              // Clear user data from localStorage
+              localStorage.removeItem("userData");
+
+              // Perform the sign-out action
+              signOut("google");
+            }}
             className="flexCenter my-auto ml-28 px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white"
           >
             Sign out

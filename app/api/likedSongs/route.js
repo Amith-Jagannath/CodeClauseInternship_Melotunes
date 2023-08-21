@@ -7,9 +7,9 @@ export async function POST(req) {
   try {
     const { user } = await req.json();
 
-    console.log(user);
+    console.log(typeof user);
     await connectMongo();
-    const songs = await FavSong.find({});
+    const songs = await FavSong.find({ user: user });
     console.log(songs);
     return NextResponse.json({ songs }, { status: 200 });
   } catch (error) {
