@@ -24,6 +24,7 @@ const userSchema = new Schema(
 const favSongSchema = new mongoose.Schema({
   user: { type: String, required: true },
   song: { type: String, required: true },
+  index: { type: Number, required: true },
   // Other song-related fields
 });
 

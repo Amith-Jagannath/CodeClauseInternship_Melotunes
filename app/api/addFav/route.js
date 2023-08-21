@@ -3,7 +3,7 @@ import { User, FavSong } from "../../../models/user";
 import connectMongo from "../../../lib/mongodb";
 export async function POST(req) {
   console.log(req);
-  const { user, songname } = await req.json();
+  const { user, songname, index } = await req.json();
   console.log("inside");
   console.log("User:", user);
   console.log("Songname:", songname);
@@ -14,6 +14,7 @@ export async function POST(req) {
     let favSong = new FavSong({
       user: user,
       song: songname,
+      index: index,
     });
     console.log(favSong);
 

@@ -14,6 +14,7 @@ import {
   HiPause,
   HiHeart,
 } from "react-icons/hi";
+import { AiOutlineHeart } from "react-icons/ai";
 
 import { User, FavSong } from "../models/user";
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
   const router = useRouter();
   const [song, setSong] = useState("");
   const [songData, setSongData] = useState(-1);
+  const [liked, setliked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -117,6 +119,11 @@ export default function Home() {
   };
   const handleLiking = async (e: any) => {
     e.preventDefault();
+    if (liked == true) {
+      setliked(false);
+      return;
+    }
+    setliked(!liked);
     console.log("liking");
     try {
       // Assuming you're using Next.js and the useSession hook
@@ -124,6 +131,7 @@ export default function Home() {
       const user = session?.user?.name;
 
       const songname = mediaData[songData].name;
+      const index = mediaData[songData].index;
       console.log(user);
 
       const res = await fetch("http://localhost:3000/api/addFav", {
@@ -135,6 +143,7 @@ export default function Home() {
         body: JSON.stringify({
           user,
           songname,
+          index,
         }),
       });
 
@@ -193,7 +202,9 @@ export default function Home() {
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
         </div>
       </div>
-      <div className=" fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center ">
+      {/* bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3
+      fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center */}
+      <div className=" fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center">
         <div className="justify-start flex gap-2">
           {isPlaying && songData != -1 && (
             <>
@@ -218,24 +229,41 @@ export default function Home() {
           <div className="flex text-center justify-center">
             <HiArrowCircleLeft
               onClick={handleBackBtnClick}
-              className="text-white text-3xl"
+              className="text-white text-4xl"
             />
             {isPlaying ? (
               <HiPause
                 onClick={() => handlePauseClick()}
-                className="text-white text-3xl"
+                className="text-white text-4xl"
               />
             ) : (
               <HiPlay
                 onClick={() => handlePlayClick(song)}
-                className="text-white text-3xl"
+                className="text-white text-4xl"
               />
             )}
             <HiArrowCircleRight
               onClick={handleFrontBtnClick}
-              className="text-white text-3xl"
+              className="text-white text-4xl"
             />
-            <HiHeart onClick={handleLiking} />{" "}
+            {liked === false ? (
+              <HiHeart
+                onClick={handleLiking}
+                className="left-10 text-4xl transition-transform transform hover:scale-110"
+              />
+            ) : (
+              <div className="left-10 text-4xl transition-transform transform hover:scale-110">
+                {/* <AiOutlineHeart onClick={handleLiking} className="text-white" /> */}
+                <Image
+                  onClick={handleLiking}
+                  className="mt-1"
+                  src="/heart.png"
+                  alt="heart"
+                  width={30}
+                  height={30}
+                ></Image>
+              </div>
+            )}
           </div>
           <div>
             <input
