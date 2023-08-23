@@ -153,39 +153,36 @@ export default function Home() {
       setProgress(newProgress);
     }
   };
-  const handleLiking = async (e: any) => {
-    e.preventDefault();
-    console.log("liking");
-    try {
-      // Assuming you're using Next.js and the useSession hook
+  const handleLiking = () => {};
+  const removeLikedSong = async (song: String) => {
+    console.log(song);
 
-      const storedUserData = localStorage.getItem("userData");
-      console.log(storedUserData);
+    const userData = localStorage.getItem("userData");
+    if (userData !== null) {
+      const user = JSON.parse(userData);
+      try {
+        const res = await fetch("http://localhost:3000/api/deleteLiked", {
+          // Use a relative path for the API endpoint
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user,
+            song,
+          }),
+        });
 
-      const songname = mediaData[songData].name;
-      const user = "nd";
+        if (!res.ok) {
+          throw new Error(
+            `Failed to like song: ${res.status} - ${res.statusText}`
+          );
+        }
 
-      const res = await fetch("http://localhost:3000/api/addFav", {
-        // Use a relative path for the API endpoint
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user,
-          songname,
-        }),
-      });
-
-      if (!res.ok) {
-        throw new Error(
-          `Failed to like song: ${res.status} - ${res.statusText}`
-        );
+        console.log("Song liked successfully!");
+      } catch (error) {
+        console.error("An error occurred while liking the song:", error);
       }
-
-      console.log("Song liked successfully!");
-    } catch (error) {
-      console.error("An error occurred while liking the song:", error);
     }
   };
 
@@ -204,12 +201,14 @@ export default function Home() {
           </header>
           {songLists.map((song, index) => (
             <div
-              onClick={() => handlePlayClick(mediaData[song.index].source)}
               key={index} // Adding a unique key for each rendered component
               className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3"
             >
               <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
-                <div className="flex items-center">
+                <div
+                  className="flex items-center"
+                  onClick={() => handlePlayClick(mediaData[song.index].source)}
+                >
                   <p className="text-white mx-4">{index + 1}</p>
                   <Image
                     src={`/poster/${mediaData[song.index].source}.webp`}
@@ -227,7 +226,7 @@ export default function Home() {
                 <div className="text-white my-auto">Dil (Maine tera naam)</div>
                 <div className="my-auto ml-60 text-3xl left-10  transition-transform transform hover:scale-110">
                   <Image
-                    onClick={handleLiking}
+                    onClick={() => removeLikedSong(song.song)}
                     className="mt-1"
                     src="/heart.png"
                     alt="heart"
