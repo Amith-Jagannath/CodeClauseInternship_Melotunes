@@ -180,6 +180,7 @@ export default function Home() {
         }
 
         console.log("Song liked successfully!");
+        window.location.reload();
       } catch (error) {
         console.error("An error occurred while liking the song:", error);
       }
@@ -199,44 +200,57 @@ export default function Home() {
             </div>
             <div className="banner__fadeButton"></div>
           </header>
-          {songLists.map((song, index) => (
-            <div
-              key={index} // Adding a unique key for each rendered component
-              className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3"
-            >
-              <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
+          {songLists.length > 0 ? (
+            <div>
+              {" "}
+              {songLists.map((song, index) => (
                 <div
-                  className="flex items-center"
-                  onClick={() => handlePlayClick(mediaData[song.index].source)}
+                  key={index} // Adding a unique key for each rendered component
+                  className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3"
                 >
-                  <p className="text-white mx-4">{index + 1}</p>
-                  <Image
-                    src={`/poster/${mediaData[song.index].source}.webp`}
-                    width={40}
-                    height={40}
-                    className="rounded-lg"
-                    alt="songs"
-                  />
-                  <div className="flex-col text-sm text-white mx-4">
-                    <p>{song.song}</p>
-                    <p>{mediaData[index].artist}</p>
+                  <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
+                    <div
+                      className="flex items-center"
+                      onClick={() =>
+                        handlePlayClick(mediaData[song.index].source)
+                      }
+                    >
+                      <p className="text-white mx-4">{index + 1}</p>
+                      <Image
+                        src={`/poster/${mediaData[song.index].source}.webp`}
+                        width={40}
+                        height={40}
+                        className="rounded-lg"
+                        alt="songs"
+                      />
+                      <div className="flex-col text-sm text-white mx-4">
+                        <p>{song.song}</p>
+                        <p>{mediaData[song.index].artist}</p>
+                      </div>
+                    </div>
+
+                    <div className="text-white my-auto">
+                      Dil {mediaData[song.index].album}
+                    </div>
+                    <div className="my-auto ml-60 text-3xl left-10  transition-transform transform hover:scale-110">
+                      <Image
+                        onClick={() => removeLikedSong(song.song)}
+                        className="mt-1"
+                        src="/heart.png"
+                        alt="heart"
+                        width={30}
+                        height={30}
+                      ></Image>
+                    </div>
                   </div>
                 </div>
-
-                <div className="text-white my-auto">Dil (Maine tera naam)</div>
-                <div className="my-auto ml-60 text-3xl left-10  transition-transform transform hover:scale-110">
-                  <Image
-                    onClick={() => removeLikedSong(song.song)}
-                    className="mt-1"
-                    src="/heart.png"
-                    alt="heart"
-                    width={30}
-                    height={30}
-                  ></Image>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <p className="text-3xl text-white flex justify-center items-center mt-10">
+              Didn't Add Any Song!!
+            </p>
+          )}
 
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
         </div>

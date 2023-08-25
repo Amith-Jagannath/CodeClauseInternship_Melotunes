@@ -5,6 +5,7 @@ const mediaData = [
     source: "dil",
     artist: "Kaushik-Guddu",
     type: "bollywood",
+    album: "Dil(From Ek The Villian)",
   },
   {
     index: 1,
@@ -12,6 +13,7 @@ const mediaData = [
     source: "ishq_wala_love",
     artist: "Vishal-Shekhar",
     type: "bollywood",
+    album: "Student of the year",
   },
   {
     index: 2,
@@ -26,6 +28,7 @@ const mediaData = [
     source: "sanam_re",
     artist: "Arijith Singh",
     type: "bollywood",
+    album: "Sanam Re",
   },
   {
     index: 4,
@@ -33,6 +36,7 @@ const mediaData = [
     source: "sun_sathiya",
     artist: "Sachin Jigar",
     type: "bollywood",
+    album: "ABCD2",
   },
 
   {
@@ -41,6 +45,7 @@ const mediaData = [
     source: "wajah_tum_ho",
     artist: "Armaan Malik",
     type: "bollywood",
+    album: "Hate Story 3",
   },
   {
     index: 6,
@@ -48,6 +53,7 @@ const mediaData = [
     source: "faded",
     artist: "Alan Walker",
     type: "hollywood",
+    album: "Different World",
   },
   {
     index: 7,
@@ -55,6 +61,7 @@ const mediaData = [
     source: "despacito",
     artist: "Luis Fonsi",
     type: "hollywood",
+    album: "VIDA",
   },
   {
     index: 8,
@@ -62,6 +69,7 @@ const mediaData = [
     source: "mockingBird",
     artist: "Eminem",
     type: "hollywood",
+    album: "Encore(Deluxe version)",
   },
   {
     index: 9,
@@ -69,6 +77,47 @@ const mediaData = [
     source: "calm_down",
     artist: "Selena Gomez",
     type: "hollywood",
+    album: "Calm Down(with Selena)",
+  },
+  {
+    index: 10,
+    name: "Without Me",
+    source: "without_me",
+    artist: "Eminem",
+    type: "hollywood",
+    album: "Without me (by Enimen)",
+  },
+  {
+    index: 11,
+    name: "Bad Guy",
+    source: "bad_guy",
+    artist: "Billie Eilish",
+    type: "pop",
+    album: "Bad Guy(by Billie Eilish)",
+  },
+  {
+    index: 12,
+    name: "WaterMelon Sugar",
+    source: "Watermelon_sugar",
+    artist: "Harry Styles",
+    type: "pop",
+    album: "Watermelon Sugar(byHarry Styles)",
+  },
+  {
+    index: 13,
+    name: "Stay",
+    source: "Stay",
+    artist: " Rihann",
+    type: "pop",
+    album: "Stay(by  Rihann)",
+  },
+  {
+    index: 14,
+    name: "Levitating",
+    source: "Levitating",
+    artist: "Dua Lipa",
+    type: "pop",
+    album: "Levitating(by Dua Lipa)",
   },
 ];
 

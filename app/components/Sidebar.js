@@ -11,22 +11,31 @@ import {
 } from "react-icons/hi";
 import { RiCloseLine } from "react-icons/Ri";
 import Link from "next/link";
+
 const links = [
   { name: "Discover", to: "/", icon: HiOutlineHome },
   { name: "Liked Songs", to: "/liked", icon: HiOutlinePhotograph },
   { name: "Top Artists", to: "/top-artists", icon: HiOutlineUserGroup },
   { name: "Top Charts", to: "/top-charts", icon: HiOutlineHashtag },
 ];
+
 const Sidebar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <>
       <div className="md:flex hidden flex-col w-[240px] py-10 px-4  h-auto bg-gradient-to-r from-purple-500 to-indigo-500">
-        <img
+        {/* <img
           src="./logo.svg"
           alt="logo"
           className="w-full h-14 object-contain"
-        />
+        /> */}
+        <Link
+          href={"/"}
+          className="text-bold mx-auto text-3xl hover:cursor-pointer  text-gray-400 hover:text-cyan-400"
+        >
+          Melotunes
+        </Link>
         <div className="mt-10">
           {links.map((item) => (
             <Link

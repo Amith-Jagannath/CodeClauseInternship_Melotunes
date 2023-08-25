@@ -11,8 +11,8 @@ export async function POST(req) {
   // console.log(await FavSong.find({}));
   try {
     await connectMongo();
-    const favSongExists = await favSong.find({ user: user, song: songname });
-    if (favSongExists) return;
+    const favSongExists = await FavSong.find({ user: user, song: songname });
+    if (favSongExists.length == 1) return;
     let favSong = new FavSong({
       user: user,
       song: songname,

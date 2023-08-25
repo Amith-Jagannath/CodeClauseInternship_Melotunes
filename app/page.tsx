@@ -19,7 +19,9 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { User, FavSong } from "../models/user";
 export default function Home() {
   const { status, data: session } = useSession();
-  localStorage.setItem("userData", JSON.stringify(session?.user?.name));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("userData", JSON.stringify(session?.user?.name));
+  }
   const router = useRouter();
   const [song, setSong] = useState("");
   const [songData, setSongData] = useState(-1);
@@ -188,6 +190,22 @@ export default function Home() {
             <div className="row__posters image-wrapper ">
               {mediaData.map(({ type, source, name }) =>
                 type === "hollywood" ? (
+                  <Card
+                    onClick={() => handlePlayClick(source)}
+                    key={source}
+                    image={`/poster/${source}.webp`}
+                    title={name}
+                    source={source}
+                  />
+                ) : null
+              )}
+            </div>
+          </div>
+          <div className="row">
+            <h1 className="text-white text-xl">Pop</h1>
+            <div className="row__posters image-wrapper ">
+              {mediaData.map(({ type, source, name }) =>
+                type === "pop" ? (
                   <Card
                     onClick={() => handlePlayClick(source)}
                     key={source}

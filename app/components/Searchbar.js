@@ -10,7 +10,7 @@ const Searchbar = () => {
   const { status, data: session } = useSession();
   return (
     <div className="flex">
-      <p className="text-2xl font-bold m-7 text-white">
+      <p className="text-2xl font-bold m-7 text-white font-poppins">
         {session
           ? `Welcome Back, ${session?.user.name.split(" ")[0]}`
           : `Welcome,login here!!`}
@@ -37,7 +37,7 @@ const Searchbar = () => {
           </div>
         </form>
       </div> */}
-      <div className="flex  my-auto">
+      <div className="flex ml-96  my-auto">
         {status === "authenticated" ? (
           <button
             onClick={() => {
@@ -47,14 +47,14 @@ const Searchbar = () => {
               // Perform the sign-out action
               signOut("google");
             }}
-            className="flexCenter my-auto ml-28 px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white"
+            className="flex ml-96  my-auto px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white"
           >
             Sign out
           </button>
         ) : (
           <button
             onClick={() => signIn("google")}
-            className="flexCenter my-auto ml-28 px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white"
+            className="flex  my-auto ml-96 px-4 py-2 bg-violet-500 rounded-xl text-sm font-medium max-md:w-full text-white"
           >
             Sign in
           </button>
