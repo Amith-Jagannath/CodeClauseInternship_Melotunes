@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@1,600&display=swap");
+.font-family {
+  font-family: "Rubik", sans-serif;
+}
 
 .progress-bar-container {
   width: 350px;

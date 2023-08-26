@@ -10,11 +10,18 @@ const Searchbar = () => {
   const { status, data: session } = useSession();
   return (
     <div className="flex">
-      <p className="text-2xl font-bold m-7 text-white font-poppins">
-        {session
-          ? `Welcome Back, ${session?.user.name.split(" ")[0]}`
-          : `Welcome,login here!!`}
+      <p className="text-2xl font-bold m-7 font-family relative">
+        {session ? (
+          <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-purple-500">
+            Welcome Back, {session?.user.name.split(" ")[0]}
+          </span>
+        ) : (
+          <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-purple-500">
+            Welcome, login here!!
+          </span>
+        )}
       </p>
+
       {/* <div className="">
         <form
           autoComplete="off"

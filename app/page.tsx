@@ -27,7 +27,7 @@ export default function Home() {
   const [songData, setSongData] = useState(-1);
   const [liked, setliked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
   const audioRef = useRef<HTMLAudioElement>(null);
   // const user = await getCurrentUser();
   useEffect(() => {
@@ -46,7 +46,9 @@ export default function Home() {
     console.log(songData);
   };
   const handleFrontBtnClick = () => {
+    console.log(songData);
     if (songData > 0) setSongData(songData + 1);
+    console.log(songData);
     setSong(mediaData[songData].source);
   };
   const handlePlayClick = (key: string) => {
@@ -69,32 +71,50 @@ export default function Home() {
     if (audioRef.current) {
       audioRef.current.pause();
     }
+    const curProgress = progress;
+    console.log(curProgress);
+    // setProgress(curProgress);
+    // setProgress(100);
     if (audioRef.current) {
-      const currentTime = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
-      const progressPercentage = (currentTime / duration) * 100;
-      setProgress(progressPercentage);
-      // console.log(progress);
+      const currentTime = (curProgress / 100) * duration;
+      audioRef.current.currentTime = currentTime;
+      setProgress(curProgress);
     }
   };
 
   useEffect(() => {
     // console.log("Updated song:", song);
-    // console.log(isPlaying);
+    console.log(isPlaying);
     // console.log(audioRef.current);
     const handleTimeUpdate = () => {
       if (audioRef.current) {
         const currentTime = audioRef.current.currentTime;
         const duration = audioRef.current.duration;
         const progressPercentage = (currentTime / duration) * 100;
-        setProgress(progressPercentage);
-        console.log(progress);
+        // console.log(progressPercentage);
+        if (isPlaying == false) setProgress(progress);
+        else setProgress(progressPercentage);
+        // console.log(progress);
       }
     };
+    // if (progress > 0){
 
+    // }
     if (audioRef.current) {
-      audioRef.current.src = `/audio/${song}.mp3`; // Set the src based on the song value
-      audioRef.current.load(); // Load the new audio source
+      if (song.length > 0) audioRef.current.src = `/audio/${song}.mp3`; // Set the src based on the song value
+      if (isPlaying == false) audioRef.current.load();
+      else {
+        setProgress(progress);
+        console.log(progress);
+        console.log("Ele");
+        const duration = audioRef.current.duration;
+        const seekTime = (progress / 100) * duration;
+
+        if (!isNaN(seekTime) && isFinite(seekTime)) {
+          audioRef.current.currentTime = seekTime;
+        }
+      }
       if (isPlaying) {
         audioRef.current.play(); // Play audio when isPlaying is true
       } else {
@@ -113,6 +133,7 @@ export default function Home() {
   }, [song, isPlaying, songData]);
   const progressUpdate = (e: any) => {
     const newProgress = parseFloat(e.target.value);
+    // console.log(newProgress);
     if (audioRef.current) {
       const duration = audioRef.current.duration;
       const currentTime = (newProgress / 100) * duration;
@@ -129,8 +150,6 @@ export default function Home() {
     setliked(!liked);
     console.log("liking");
     try {
-      // Assuming you're using Next.js and the useSession hook
-
       const user = session?.user?.name;
 
       const songname = mediaData[songData].name;
@@ -223,15 +242,15 @@ export default function Home() {
       </div>
       {/* bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3
       fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center */}
-      <div className=" fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center">
+      <div className=" fixed bottom-0 bg-black w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center">
         <div className="justify-start flex gap-2">
-          {isPlaying && songData != -1 && (
+          {songData != -1 && (
             <>
               {" "}
               <Image
                 src={`/poster/${song}.webp`}
-                width={40}
-                height={40}
+                width={50}
+                height={20}
                 alt="song"
                 className="justify-start"
               />
@@ -266,10 +285,17 @@ export default function Home() {
               className="text-white text-4xl"
             />
             {liked === false ? (
-              <HiHeart
-                onClick={handleLiking}
-                className="left-10 text-4xl transition-transform transform hover:scale-110"
-              />
+              <div className="left-10 text-4xl transition-transform transform hover:scale-110">
+                {/* <AiOutlineHeart onClick={handleLiking} className="text-white" /> */}
+                <Image
+                  onClick={handleLiking}
+                  className="mt-1"
+                  src="/hollow2.png"
+                  alt="heart2"
+                  width={30}
+                  height={30}
+                ></Image>
+              </div>
             ) : (
               <div className="left-10 text-4xl transition-transform transform hover:scale-110">
                 {/* <AiOutlineHeart onClick={handleLiking} className="text-white" /> */}

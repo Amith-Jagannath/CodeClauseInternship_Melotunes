@@ -18,7 +18,9 @@ import {
 // import { User, FavSong } from "../models/user";
 export default function Home() {
   const { status, data: session } = useSession();
+  const user = session?.user?.name;
   const router = useRouter();
+  const [load, setload] = useState(true);
   const [song, setSong] = useState("");
   const [songData, setSongData] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -62,6 +64,11 @@ export default function Home() {
       }
     }
     fetchData();
+    const timeout = setTimeout(() => {
+      setload(false);
+    }, 1500);
+
+    return () => clearTimeout(timeout);
   }, []);
   useEffect(() => {
     if (isPlaying) {
@@ -102,12 +109,12 @@ export default function Home() {
     if (audioRef.current) {
       audioRef.current.pause();
     }
+    setProgress(progress);
     if (audioRef.current) {
       const currentTime = audioRef.current.currentTime;
       const duration = audioRef.current.duration;
       const progressPercentage = (currentTime / duration) * 100;
       setProgress(progressPercentage);
-      // console.log(progress);
     }
   };
 
@@ -120,8 +127,8 @@ export default function Home() {
         const currentTime = audioRef.current.currentTime;
         const duration = audioRef.current.duration;
         const progressPercentage = (currentTime / duration) * 100;
-        setProgress(progressPercentage);
-        console.log(progress);
+        if (isPlaying == false) setProgress(progress);
+        else setProgress(progressPercentage);
       }
     };
 
@@ -156,7 +163,7 @@ export default function Home() {
   const handleLiking = () => {};
   const removeLikedSong = async (song: String) => {
     console.log(song);
-
+    setload(false);
     const userData = localStorage.getItem("userData");
     if (userData !== null) {
       const user = JSON.parse(userData);
@@ -200,64 +207,76 @@ export default function Home() {
             </div>
             <div className="banner__fadeButton"></div>
           </header>
-          {songLists.length > 0 ? (
+          {load && user ? (
+            <p className="text-3xl text-white flex justify-center items-center mt-10">
+              Loading....
+            </p>
+          ) : (
             <div>
-              {" "}
-              {songLists.map((song, index) => (
-                <div
-                  key={index} // Adding a unique key for each rendered component
-                  className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3"
-                >
-                  <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
+              {songLists.length > 0 ? (
+                <div>
+                  {" "}
+                  {songLists.map((song, index) => (
                     <div
-                      className="flex items-center"
-                      onClick={() =>
-                        handlePlayClick(mediaData[song.index].source)
-                      }
+                      key={index} // Adding a unique key for each rendered component
+                      className="bg-zinc-700 mx-10 h-16 rounded-lg flex items-center justify-center mb-3"
                     >
-                      <p className="text-white mx-4">{index + 1}</p>
-                      <Image
-                        src={`/poster/${mediaData[song.index].source}.webp`}
-                        width={40}
-                        height={40}
-                        className="rounded-lg"
-                        alt="songs"
-                      />
-                      <div className="flex-col text-sm text-white mx-4">
-                        <p>{song.song}</p>
-                        <p>{mediaData[song.index].artist}</p>
+                      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 lg:grid-cols-3 gap-4">
+                        <div
+                          className="flex items-center"
+                          onClick={() =>
+                            handlePlayClick(mediaData[song.index].source)
+                          }
+                        >
+                          <p className="text-white mx-4">{index + 1}</p>
+                          <Image
+                            src={`/poster/${mediaData[song.index].source}.webp`}
+                            width={40}
+                            height={40}
+                            className="rounded-lg"
+                            alt="songs"
+                          />
+                          <div className="flex-col text-sm text-white mx-4">
+                            <p>{song.song}</p>
+                            <p>{mediaData[song.index].artist}</p>
+                          </div>
+                        </div>
+
+                        <div className="text-white my-auto">
+                          Dil {mediaData[song.index].album}
+                        </div>
+                        <div className="my-auto ml-60 text-3xl left-10  transition-transform transform hover:scale-110">
+                          <Image
+                            onClick={() => removeLikedSong(song.song)}
+                            className="mt-1"
+                            src="/heart.png"
+                            alt="heart"
+                            width={30}
+                            height={30}
+                          ></Image>
+                        </div>
                       </div>
                     </div>
-
-                    <div className="text-white my-auto">
-                      Dil {mediaData[song.index].album}
-                    </div>
-                    <div className="my-auto ml-60 text-3xl left-10  transition-transform transform hover:scale-110">
-                      <Image
-                        onClick={() => removeLikedSong(song.song)}
-                        className="mt-1"
-                        src="/heart.png"
-                        alt="heart"
-                        width={30}
-                        height={30}
-                      ></Image>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              ) : user ? (
+                <p className="text-3xl text-white flex justify-center items-center mt-10">
+                  Didn't Add Any Song!!
+                </p>
+              ) : (
+                <p className="text-3xl text-white flex justify-center items-center mt-10">
+                  Login to create playlist!!
+                </p>
+              )}{" "}
             </div>
-          ) : (
-            <p className="text-3xl text-white flex justify-center items-center mt-10">
-              Didn't Add Any Song!!
-            </p>
           )}
 
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row flex-col-reverse"></div>
         </div>
       </div>
-      <div className=" fixed bottom-0 bg-gray-800 w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center ">
+      <div className=" fixed bottom-0 bg-black w-full p-6 rounded-tl-lg rounded-tr-lg grid grid-cols-3 gap-4 text-center ">
         <div className="justify-start flex gap-2">
-          {isPlaying && songData != -1 && (
+          {songData != -1 && (
             <>
               {" "}
               <Image

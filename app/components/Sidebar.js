@@ -72,12 +72,24 @@ const Sidebar = () => {
           mobileMenuOpen ? "left-0" : "-left-full"
         }`}
       >
-        <img
-          src="./logo.svg"
-          alt="logo"
-          className="w-full h-14 object-contain"
-        />
-        {/* <Links handleClick={() => setMobileMenuOpen(false)} /> */}
+        <Link
+          href={"/"}
+          className="text-bold mx-auto text-3xl hover:cursor-pointer  text-gray-400 hover:text-cyan-400"
+        >
+          Melotunes
+        </Link>
+        {links.map((item) => (
+          <Link
+            key={item.name}
+            href={item.to}
+            to={item.to}
+            className="flex flex-row justify-start items-center my-8 text-sm font-medium text-gray-400 hover:text-cyan-400"
+            onClick={() => handleClick && handleClick()}
+          >
+            <item.icon className="w-6 h-6 mr-2" />
+            {item.name}
+          </Link>
+        ))}
       </div>
     </>
   );
