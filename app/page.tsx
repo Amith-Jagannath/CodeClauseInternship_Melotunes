@@ -53,6 +53,7 @@ export default function Home() {
   };
   const handlePlayClick = (key: string) => {
     setSong(key);
+    setliked(false);
     setIsPlaying(!isPlaying); // Set audio play state to true when user clicks play
     const newProgress = parseFloat(progress.toString());
     setProgress(progress);
